@@ -5,7 +5,7 @@
       "default": true
     }
   ],
-  "name": "Buckaroo",
+  "name": "Buckaroo Use Case",
   "namespace": "",
   "sfdcLoginUrl": "https://login.salesforce.com",
   "sourceApiVersion": "58.0"
