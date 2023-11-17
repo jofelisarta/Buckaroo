@@ -1,7 +1,7 @@
 /**
  * @description       : Trigger Handler for Account Trigger
  * @author            : Joana Felisarta
- * @last modified on  : 11-16-2023
+ * @last modified on  : 11-17-2023
 **/
 public with sharing class AccountTriggerHandler {
 
@@ -33,8 +33,6 @@ public with sharing class AccountTriggerHandler {
     
             }
             when AFTER_UPDATE {
-                System.debug('***Account After Update Trigger');
-                System.debug('Trigger.new size: ' + newAcctsList.size());
                 ContactTriggerHandler.bypassExecution = true;
                 AccountTriggerHelper.updateRelatedContacts(newAcctsList, oldAcctMap);         
                 
@@ -48,6 +46,5 @@ public with sharing class AccountTriggerHandler {
         }
 
         loopCount = loopCount - 1;
-        System.debug('Account loopcount: ' + loopCount);
     }
 }
