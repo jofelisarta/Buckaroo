@@ -1,12 +1,12 @@
 /**
  * @description       : Trigger Helper for Contact Trigger
  * @author            : Joana Felisarta
- * @last modified on  : 11-16-2023
+ * @last modified on  : 11-17-2023
 **/
 public with sharing class ContactTriggerHelper {
     
     public static void updateRelatedAcctAndContacts(List<Contact> newContactList, Map<Id, Contact> oldContactMap) {
-        System.debug('ContactTriggerHelper');
+
         Set<Id> updatedContactsIdSet = new Set<Id>();
         List<Account> acctsListToUpdate = new List<Account>();
         List<Contact> contactsListToUpdate = new List<Contact>();
@@ -35,12 +35,8 @@ public with sharing class ContactTriggerHelper {
         }
 
         try {
-            System.debug('Update Contact Trigger');
-            System.debug('acctsListToUpdate: ' + acctsListToUpdate);
             update acctsListToUpdate;
-            
             update contactsListToUpdate;
-                     
         } catch (Exception e) {
             System.debug('The following error has occurred: ' + e.getMessage());
         }
