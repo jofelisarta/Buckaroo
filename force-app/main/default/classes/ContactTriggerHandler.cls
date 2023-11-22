@@ -1,7 +1,7 @@
 /**
  * @description       : Trigger Handler for Contact Trigger
  * @author            : Joana Felisarta
- * @last modified on  : 11-17-2023
+ * @last modified on  : 11-22-2023
 **/
 public with sharing class ContactTriggerHandler {
 
@@ -13,6 +13,7 @@ public with sharing class ContactTriggerHandler {
         List<Contact> newConList = (List<Contact>) Trigger.new;
         Map<Id, Contact> oldConMap = (Map<Id, Contact>) Trigger.oldMap;
 
+        //To bypass execution and handle recursion
         if(bypassExecution || loopCount == 1) {
             return;
         }
@@ -33,9 +34,10 @@ public with sharing class ContactTriggerHandler {
     
             }
             when AFTER_UPDATE {
+
                 AccountTriggerHandler.bypassExecution = true;
                 ContactTriggerHelper.updateRelatedAcctAndContacts(newConList, oldConMap);
-                
+                    
             }
             when AFTER_DELETE {
     

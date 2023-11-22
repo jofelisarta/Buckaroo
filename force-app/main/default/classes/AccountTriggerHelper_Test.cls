@@ -1,7 +1,7 @@
 /**
  * @description       : Test Class for AccountTriggerHelper class
  * @author            : Joana Felisarta
- * @last modified on  : 11-20-2023
+ * @last modified on  : 11-22-2023
 **/
 @isTest
 public with sharing class AccountTriggerHelper_Test {
@@ -38,7 +38,7 @@ public with sharing class AccountTriggerHelper_Test {
         accToActivate.Activated__c = true;
         update accToActivate;
 
-        for(Contact conRecord : [SELECT Id FROM Contact WHERE AccountId = :accToActivate.Id]) {
+        for(Contact conRecord : [SELECT Id, Activated__c FROM Contact WHERE AccountId = :accToActivate.Id]) {
             Assert.areEqual(true, conRecord.Activated__c, 'All child Contacts must be activated when the parent Account is activated.');
         }
     }
@@ -50,9 +50,7 @@ public with sharing class AccountTriggerHelper_Test {
         accToDeactivate.Activated__c = false;
         update accToDeactivate;
     
-        for(Contact conRecord : [SELECT Id 
-                                 FROM Contact 
-                                 WHERE AccountId = :accToDeactivate.Id]) {
+        for(Contact conRecord : [SELECT Id, Activated__c FROM Contact WHERE AccountId = :accToDeactivate.Id]) {
 
             Assert.areEqual(false, conRecord.Activated__c, 'All related Contacts must be deactivated when parent Account is deactivated.');                   
         }
@@ -62,7 +60,7 @@ public with sharing class AccountTriggerHelper_Test {
     static void testActivateAcctBulkUpdate() {
 
         List<Account> acctsToActivateList = [SELECT Id FROM Account WHERE Activated__c = false];
-
+        
         for(Account accRecord : acctsToActivateList) {
             accRecord.Activated__c = true;
         }
@@ -84,7 +82,7 @@ public with sharing class AccountTriggerHelper_Test {
         }
         update acctsToDeactivateList;
     
-        for(Contact conRecord : [SELECT Id FROM Contact WHERE AccountId IN :acctsToDeactivateList]) {
+        for(Contact conRecord : [SELECT Id, Activated__c FROM Contact WHERE AccountId IN :acctsToDeactivateList]) {
             Assert.areEqual(false, conRecord.Activated__c, 'All related Contacts must be deactivated when the parent Account is deactivated');
         }
     }

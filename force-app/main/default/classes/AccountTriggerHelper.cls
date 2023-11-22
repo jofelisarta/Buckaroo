@@ -1,10 +1,10 @@
 /**
  * @description       : Trigger Helper for Account Trigger
  * @author            : Joana Felisarta
- * @last modified on  : 11-17-2023
+ * @last modified on  : 11-22-2023
 **/
 public with sharing class AccountTriggerHelper {
-
+    
     public static void updateRelatedContacts(List<Account> newAcctsList, Map<Id, Account> oldAcctsMap) {
 
         Set<Id> acctIdSet = new Set<Id>();
