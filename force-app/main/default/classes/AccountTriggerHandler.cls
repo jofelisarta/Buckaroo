@@ -1,10 +1,10 @@
 /**
  * @description       : Trigger Handler for Account Trigger
  * @author            : Joana Felisarta
- * @last modified on  : 11-17-2023
+ * @last modified on  : 11-22-2023
 **/
 public with sharing class AccountTriggerHandler {
-
+    
     public static Boolean bypassExecution = false;
     private static Integer loopCount = 0;
 
@@ -13,6 +13,7 @@ public with sharing class AccountTriggerHandler {
         List<Account> newAcctsList = (List<Account>) Trigger.new;
         Map<Id, Account> oldAcctMap = (Map<Id, Account>) Trigger.oldMap;
 
+        //To bypass execution and handle recursion
         if(bypassExecution || loopCount == 1) {
             return;
         }
@@ -33,6 +34,7 @@ public with sharing class AccountTriggerHandler {
     
             }
             when AFTER_UPDATE {
+
                 ContactTriggerHandler.bypassExecution = true;
                 AccountTriggerHelper.updateRelatedContacts(newAcctsList, oldAcctMap);         
                 

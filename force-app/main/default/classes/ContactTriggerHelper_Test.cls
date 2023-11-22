@@ -1,7 +1,7 @@
 /**
  * @description       : Test Class for ContactTriggerHelper
  * @author            : Joana Felisarta
- * @last modified on  : 11-20-2023
+ * @last modified on  : 11-22-2023
 **/
 @isTest
 public with sharing class ContactTriggerHelper_Test {
@@ -74,11 +74,6 @@ public with sharing class ContactTriggerHelper_Test {
     @isTest
     static void testActivateContactBulkUpdate() {
 
-        //Query Contacts where Name = Test Contact 1 AND Activated__c = false
-        //Loop, and set Activated to True
-        //Query parent Accounts and child Contacts
-            //Assert Activated to true
-
         Set<Id> parentAcctIdSet = new Set<Id>();
         Set<Id> contactsToActivateIdSet = new Set<Id>();
 
@@ -86,7 +81,7 @@ public with sharing class ContactTriggerHelper_Test {
                                                 FROM Contact
                                                 WHERE Name = 'Test Contact 1'
                                                     AND Activated__c = false];
-        System.debug('***contactsToActivateList size: ' + contactsToActivateList.size());
+
         for(Contact conRecord : contactsToActivateList) {
             conRecord.Activated__c = true;
             parentAcctIdSet.add(conRecord.AccountId);
@@ -116,8 +111,6 @@ public with sharing class ContactTriggerHelper_Test {
                                                   WHERE NAME = 'Test Contact 1'
                                                     AND Activated__c = true];
 
-        System.debug('***contactsToDeactivateList size: ' + contactsToDeactivateList.size());
-
         for(Contact conRecord : contactsToDeactivateList) {
             conRecord.Activated__c = false;
             parentAcctIdSet.add(conRecord.AccountId);
@@ -131,7 +124,7 @@ public with sharing class ContactTriggerHelper_Test {
 
         for(Contact conRecord : [SELECT Id, Activated__c FROM Contact WHERE AccountId IN :parentAcctIdSet]) {
             if(!contactsToDeactivateIdSet.contains(conRecord.Id)) {
-                Assert.areEqual(false, conRecord.Activated__c, 'All other child Contact records must be activated when a sibling Contact was activated');
+                Assert.areEqual(false, conRecord.Activated__c, 'All other child Contact records must be deactivated when a sibling Contact was deactivated');
             }
         }
     }
